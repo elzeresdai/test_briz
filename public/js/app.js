@@ -19347,7 +19347,11 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener('click', function () {
       var form = document.getElementById('update_form');
       var data = new FormData(form);
-      axios.post(form.action, data);
+      axios.post(form.action, data).then(function (resp) {
+        console.log(resp.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
     });
   }
 

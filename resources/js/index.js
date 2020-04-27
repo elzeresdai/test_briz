@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", function () {
             let form = document.getElementById('update_form');
             let data = new FormData(form);
             axios.post(form.action, data)
+                .then(function (resp) {
+                    console.log(resp.data);
+                })
+                .catch(function (err) {
+                    console.log(err)
+                })
         })
     }
 

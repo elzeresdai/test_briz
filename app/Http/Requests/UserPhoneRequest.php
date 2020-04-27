@@ -13,7 +13,7 @@ class UserPhoneRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class UserPhoneRequest extends FormRequest
         return [
             'first_name' =>'required|string|min:3|max:100',
             'last_name'=>'required|string|min:3|max:100',
-            '*.phone'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10'
+            'phone.*'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10'
         ];
     }
 
