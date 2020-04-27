@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserPhoneRequest;
 use App\User;
 use App\UserPhone;
 use Illuminate\Http\Request;
@@ -66,10 +67,10 @@ class UserPhoneController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param UserPhoneRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UserPhoneRequest $request)
     {
         dd($request->all());
     }
