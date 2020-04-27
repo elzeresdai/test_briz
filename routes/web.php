@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','UserPhoneController@index');
+Route::get('/{id}', ['as' => 'edit_user', 'uses' => 'UserPhoneController@edit']);
+Route::post('update_user_info', ['as' => 'update_user_info', 'uses' => 'UserPhoneController@update']);

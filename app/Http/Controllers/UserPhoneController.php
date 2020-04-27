@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\UserPhone;
 use Illuminate\Http\Request;
 
@@ -10,11 +11,12 @@ class UserPhoneController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+        $data['users'] = User::with('phone')->get();
+        return view('index',$data);
     }
 
     /**
@@ -52,24 +54,24 @@ class UserPhoneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\UserPhone  $userPhone
-     * @return \Illuminate\Http\Response
+     * @param   $user_id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(UserPhone $userPhone)
+    public function edit($user_id)
     {
-        //
+        $data['user'] = User::find($user_id);
+        return view('axios.load_to_modal',$data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\UserPhone  $userPhone
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserPhone $userPhone)
+    public function update(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
