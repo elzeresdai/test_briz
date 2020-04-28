@@ -26,7 +26,8 @@ class UserPhoneRequest extends FormRequest
         return [
             'first_name' =>'required|string|min:3|max:100',
             'last_name'=>'required|string|min:3|max:100',
-            'phone.*'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10'
+            'phone.*'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'new_phone.*'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10'
         ];
     }
 
@@ -35,7 +36,8 @@ class UserPhoneRequest extends FormRequest
         return [
             'first_name.required'=>'First name must be min 5 characters, max 100',
             'last_name.required'=>'Last name name must be min 5 characters, max 100',
-            'phone.required'=>'Please check phone numbers, something went wrong'
+            'phone.required'=>'Please check phone numbers, something went wrong',
+            'new_phone.required'=>'Please check phone numbers, something went wrong'
         ];
     }
 }

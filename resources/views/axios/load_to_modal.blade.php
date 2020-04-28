@@ -1,5 +1,6 @@
 <form action="{{route('update_user_info')}}" id="update_form" method="post">
     {{csrf_field()}}
+    <input type="hidden" name="user_id" value="{{$user->id}}">
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>

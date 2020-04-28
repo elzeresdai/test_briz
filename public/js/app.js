@@ -19327,6 +19327,32 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ (function(module, exports) {
 
 document.addEventListener("DOMContentLoaded", function () {
+  function addUser() {
+    var form = document.getElementById('save_user');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(form);
+      axios.post(form.action, data).then(function () {
+        location.reload();
+      })["catch"](function (error) {
+        showError(error);
+      });
+    });
+  }
+
+  function addPhone() {
+    var btn = document.getElementById('add_phone');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var addRes = document.getElementById('add_result');
+      addRes.innerHTML += "<div class=\"form-group\"><input type=\"number\" maxlength=\"10\" name=\"phone[]\" class=\"form-control added_phone\" title=\"Phone\"><button class=\"btn del_new_number\"><i class=\"fas fa-minus-circle\"></i></button></div>";
+      delNewNumber();
+    });
+  }
+
+  addPhone();
+  addUser();
+
   function deleteUser() {
     var btn = document.getElementsByClassName('dell_btn');
 
@@ -19381,8 +19407,8 @@ document.addEventListener("DOMContentLoaded", function () {
       btn[i].addEventListener('click', function (e) {
         e.preventDefault();
         axios.get(this.dataset.action).then(function (resp) {
-          $('#editModal').modal('show');
           $('#for_results').html(resp.data);
+          $('#editModal').modal('show');
           saveChanges();
           addNewNumber();
           delIssetNumber();
@@ -19397,10 +19423,30 @@ document.addEventListener("DOMContentLoaded", function () {
       var form = document.getElementById('update_form');
       var data = new FormData(form);
       axios.post(form.action, data).then(function (resp) {
-        console.log(resp.data);
-      })["catch"](function (err) {
-        console.log(err.response.data.errors);
+        if (resp.data === 'ok') {
+          location.reload();
+        }
+      })["catch"](function (error) {
+        showError(error);
       });
+    });
+  }
+
+  function showError(error) {
+    var ul = document.getElementById('errors');
+    var btn = document.getElementById('close_modal');
+    console.log(btn);
+
+    for (var key in error.response.data.errors) {
+      var li = document.createElement('li');
+      li.innerText = error.response.data.errors[key];
+      ul.appendChild(li);
+    }
+
+    $('#success_modal').modal("show");
+    btn.addEventListener('click', function () {
+      $('#success_modal').modal("hide");
+      ul.innerHTML = '';
     });
   }
 
