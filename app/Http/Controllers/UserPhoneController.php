@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DellUserRequest;
 use App\Http\Requests\UserPhoneRequest;
 use App\User;
 use App\UserPhone;
@@ -78,11 +79,17 @@ class UserPhoneController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\UserPhone  $userPhone
-     * @return \Illuminate\Http\Response
+     * @param  $user_id
+     * @return string
      */
-    public function destroy(UserPhone $userPhone)
+    public function destroy($user_id)
     {
-        //
+        try {
+            User::findOrFail($user_id)->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        return 'ok';
+
     }
 }

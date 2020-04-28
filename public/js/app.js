@@ -19327,6 +19327,53 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ (function(module, exports) {
 
 document.addEventListener("DOMContentLoaded", function () {
+  function deleteUser() {
+    var btn = document.getElementsByClassName('dell_btn');
+
+    for (var i = 0; i < btn.length; i++) {
+      btn[i].addEventListener('click', function () {
+        var _this = this;
+
+        var current = this;
+        openConfirmDialog('Do you really wants to delete user?');
+        var answer = answerFromConfirm();
+        answer.then(function () {
+          axios.get(_this.dataset.action).then(function (resp) {
+            if (resp.data === 'ok') {
+              current.parentNode.parentNode.remove();
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      });
+    }
+  }
+
+  function openConfirmDialog(message) {
+    document.getElementById('alert_text').innerText = message;
+    $('#alertModal').modal('show');
+  }
+
+  function answerFromConfirm() {
+    return new Promise(function (resolve, reject) {
+      var tr = document.querySelector('.true_button');
+      tr.addEventListener('click', function (e) {
+        e.preventDefault();
+        resolve(true);
+        $('#alertModal').modal('hide');
+      });
+      var fl = document.querySelector('.false_button');
+      fl.addEventListener('click', function (e) {
+        e.preventDefault();
+        reject(false);
+        $('#alertModal').modal('hide');
+      });
+    });
+  }
+
   function editUserInfo() {
     var btn = document.getElementsByClassName('edit_btn');
 
@@ -19337,6 +19384,8 @@ document.addEventListener("DOMContentLoaded", function () {
           $('#editModal').modal('show');
           $('#for_results').html(resp.data);
           saveChanges();
+          addNewNumber();
+          delIssetNumber();
         });
       });
     }
@@ -19350,12 +19399,54 @@ document.addEventListener("DOMContentLoaded", function () {
       axios.post(form.action, data).then(function (resp) {
         console.log(resp.data);
       })["catch"](function (err) {
-        console.log(err);
+        console.log(err.response.data.errors);
       });
     });
   }
 
+  function addNewNumber() {
+    var btn = document.getElementById('add_new_number');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var addRes = document.getElementById('add_number');
+      addRes.innerHTML += "<div class=\"input-group\"><input type=\"text\" name=\"new_phone[]\" class=\"form-control added_phone\"><button class=\"btn del_new_number\"><i class=\"fas fa-minus-circle\"></i></button></div>";
+      delNewNumber();
+    });
+  }
+
+  function delNewNumber() {
+    var btn = document.getElementsByClassName('del_new_number');
+
+    for (var i = 0; i < btn.length; i++) {
+      btn[i].addEventListener('click', function (e) {
+        e.preventDefault();
+        this.parentNode.remove();
+      });
+    }
+  }
+
+  function delIssetNumber() {
+    var btn = document.getElementsByClassName('del_number');
+
+    for (var i = 0; i < btn.length; i++) {
+      btn[i].addEventListener('click', function (e) {
+        e.preventDefault();
+        var number = this;
+        axios.post(this.dataset.action, {
+          phone_id: this.dataset.id
+        }).then(function (resp) {
+          if (resp.data === 'ok') {
+            number.parentNode.remove();
+          }
+        })["catch"](function (err) {
+          console.log(err.data);
+        });
+      });
+    }
+  }
+
   editUserInfo();
+  deleteUser();
 });
 
 /***/ }),

@@ -14,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/','UserPhoneController@index');
+Route::get('delete_user/{id}', ['as' => 'delete_user', 'uses' => 'UserPhoneController@destroy']);
 Route::get('/{id}', ['as' => 'edit_user', 'uses' => 'UserPhoneController@edit']);
 Route::post('update_user_info', ['as' => 'update_user_info', 'uses' => 'UserPhoneController@update']);
+Route::post('del_number', ['as' => 'del_number', 'uses' => 'PhoneController@delIssetNumber']);

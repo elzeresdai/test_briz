@@ -6,6 +6,7 @@
 
 @section('content')
     @include('modal.editModal')
+    @include('modal.alertModal')
     <div class="container">
         <div class="container h-100">
             <div class="row h-100 justify-content-center align-items-center">
@@ -33,9 +34,14 @@
                                     {{$phone->phone}};
                                     @endforeach
                                 </td>
-                                <td><button type="button"   class="btn btn-primary edit_btn" data-action="{{route('edit_user',$user->id)}}" data-toggle="modal" data-target="#EditModal">
+                                <td><button type="button" class="btn btn-primary edit_btn" data-action="{{route('edit_user',$user->id)}}" data-toggle="modal" data-target="#EditModal">
                                         Edit
-                                    </button></td>
+                                    </button>
+                                    <button type="button" class="btn btn-primary dell_btn" data-action="{{route('delete_user',$user->id)}}" data-toggle="modal" data-target="#AlertModal">
+                                        Delete
+                                    </button>
+
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
